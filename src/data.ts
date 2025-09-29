@@ -1,3 +1,3 @@
-import dataJson from './data.json';
+import dataJson from './assets/data.json';
 
 export const data = dataJson;
