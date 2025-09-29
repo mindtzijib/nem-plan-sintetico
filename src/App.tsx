@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Header from './components/Header';
 import HomePage from './components/HomePage';
 import type { Data, Fase, Grado } from './types';
+import { data as importedData } from './data';
 
 const App: React.FC = () => {
   const [data, setData] = useState<Data | null>(null);
@@ -9,16 +10,11 @@ const App: React.FC = () => {
   const [selectedGrado, setSelectedGrado] = useState<Grado | null>(null);
 
   useEffect(() => {
-    fetch('/data.json')
-      .then((res) => res.json())
-      .then((jsonData) => {
-        setData(jsonData);
-        // Set initial selected fase if data is available
-        if (jsonData.fases && jsonData.fases.length > 0) {
-          setSelectedFase(jsonData.fases[0]);
-        }
-      })
-      .catch((err) => console.error("Error loading data:", err));
+    // Usar datos importados directamente
+    setData(importedData);
+    if (importedData.fases && importedData.fases.length > 0) {
+      setSelectedFase(importedData.fases[0]);
+    }
   }, []);
 
   return (

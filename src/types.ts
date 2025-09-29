@@ -18,7 +18,7 @@ export interface Fase {
 export interface CampoFormativo {
   id: number;
   nombre: string;
-  descripcion?: string;
+  descripcion?: string | null;
 }
 
 export interface Grado {
