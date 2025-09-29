@@ -50,6 +50,21 @@ Para ejecutar este proyecto en tu entorno local, sigue estos pasos:
 -   `npm run build`: Compila la aplicación para producción (incluye chequeo de tipos de TypeScript).
 -   `npm run lint`: Ejecuta el linter (ESLint) para analizar el código en busca de errores y problemas de estilo.
 -   `npm run preview`: Inicia un servidor local para previsualizar la versión de producción generada por `npm run build`.
+-   `npm run deploy`: Despliega la aplicación a GitHub Pages.
+
+## 🌐 Deploy a GitHub Pages
+
+El proyecto está configurado para deploy automático:
+
+1. **Deploy automático**: Al hacer push a la rama `main`, GitHub Actions construye y despliega automáticamente
+2. **Deploy manual**: Ejecuta `npm run deploy` para desplegar manualmente
+3. **URL de producción**: https://mindtzijib.github.io/nem-plan-sintetico
+
+### Configuración de GitHub Pages
+
+1. Ve a Settings > Pages en tu repositorio
+2. Selecciona "GitHub Actions" como fuente
+3. El workflow se ejecutará automáticamente en cada push a main
 
 ## 📂 Estructura del Proyecto
 

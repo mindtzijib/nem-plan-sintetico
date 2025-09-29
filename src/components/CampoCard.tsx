@@ -1,5 +1,5 @@
 import React from 'react';
-import type { CampoFormativo } from '../App';
+import type { CampoFormativo } from '../types';
 import { FaComments, FaFlask, FaBalanceScale, FaUsers } from 'react-icons/fa';
 
 interface CampoCardProps {
@@ -7,8 +7,7 @@ interface CampoCardProps {
   onExplore: (campoId: number) => void;
 }
 
-// Helper object to map campo names to specific styles and content from the mockup
-const campoMetadata: { [key: string]: { gradient: string; icon: JSX.Element; description: string; buttonColor: string; } } = {
+const campoMetadata: { [key: string]: { gradient: string; icon: React.ReactNode; description: string; buttonColor: string; } } = {
   'Lenguajes': {
     gradient: 'from-nem-wine/5 to-nem-berry/5',
     buttonColor: 'text-nem-wine hover:bg-nem-wine/10',

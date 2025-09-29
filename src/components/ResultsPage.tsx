@@ -1,5 +1,5 @@
 import React from 'react';
-import type { Data, Pda, View } from '../App';
+import type { Data, Pda, View } from '../types';
 import PdaCard from './PdaCard';
 
 interface ResultsPageProps {

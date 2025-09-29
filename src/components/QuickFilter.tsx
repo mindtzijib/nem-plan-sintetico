@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import type { Data, Pda, Fase, Grado } from '../App';
+import type { Data, Pda, Fase, Grado, Contenido, CampoFormativo } from '../types';
 import { FaChevronDown } from 'react-icons/fa';
 import PdaCard from './PdaCard';
 
@@ -29,17 +29,17 @@ const QuickFilter: React.FC<QuickFilterProps> = ({
 
   const availableGrados = useMemo(() => {
     if (!selectedFase) return [];
-    return grados.filter(g => g.fase_id === selectedFase.id);
+    return grados.filter((g: Grado) => g.fase_id === selectedFase.id);
   }, [selectedFase, grados]);
 
   const availableContenidos = useMemo(() => {
     if (!selectedFase || !selectedCampoId) return [];
-    return data.contenidos.filter(c => c.fase_id === selectedFase.id && c.campo_formativo_id === selectedCampoId);
+    return data.contenidos.filter((c: Contenido) => c.fase_id === selectedFase.id && c.campo_formativo_id === selectedCampoId);
   }, [selectedFase, selectedCampoId, data.contenidos]);
 
   const handleShowPdas = () => {
     if (!selectedContenidoId || !selectedGrado) return;
-    const pdas = data.pdas.filter(pda => pda.contenido_id === selectedContenidoId && pda.grado_id === selectedGrado.id);
+    const pdas = data.pdas.filter((pda: Pda) => pda.contenido_id === selectedContenidoId && pda.grado_id === selectedGrado.id);
     setLocalPdas(pdas);
   };
 
@@ -67,7 +67,7 @@ const QuickFilter: React.FC<QuickFilterProps> = ({
             </button>
             {isFaseDropdownOpen && (
               <div className="absolute right-0 mt-2 w-full bg-white rounded-xl shadow-lg border border-nem-gray/30 py-1 z-10">
-                {fases.map((fase) => (
+                {fases.map((fase: Fase) => (
                   <a
                     key={fase.id}
                     href="#"
@@ -94,13 +94,13 @@ const QuickFilter: React.FC<QuickFilterProps> = ({
             <select 
               value={selectedGrado?.id ?? ''}
               onChange={(e) => {
-                const grado = grados.find(g => g.id === Number(e.target.value));
+                const grado = grados.find((g: Grado) => g.id === Number(e.target.value));
                 if (grado) setSelectedGrado(grado);
               }}
               disabled={!selectedFase}
               className="w-full px-5 py-4 bg-nem-wine/5 border-0 rounded-2xl focus:bg-white focus:shadow-lg focus:ring-4 focus:ring-nem-wine/30 transition-all duration-200 font-medium disabled:bg-nem-gray/30 disabled:cursor-not-allowed appearance-none pr-10">
               <option value="" disabled>Seleccionar grado...</option>
-              {availableGrados.map(grado => (
+              {availableGrados.map((grado: Grado) => (
                 <option key={grado.id} value={grado.id}>{grado.nombre}</option>
               ))}
             </select>
@@ -120,7 +120,7 @@ const QuickFilter: React.FC<QuickFilterProps> = ({
               }}
               className="w-full px-5 py-4 bg-nem-wine/5 border-0 rounded-2xl focus:bg-white focus:shadow-lg focus:ring-4 focus:ring-nem-wine/30 transition-all duration-200 font-medium appearance-none pr-10">
               <option value="" disabled>Seleccionar campo...</option>
-              {data.campos_formativos.map(campo => (
+              {data.campos_formativos.map((campo: CampoFormativo) => (
                 <option key={campo.id} value={campo.id}>{campo.nombre}</option>
               ))}
             </select>
@@ -138,7 +138,7 @@ const QuickFilter: React.FC<QuickFilterProps> = ({
               disabled={!selectedFase || !selectedCampoId}
               className="w-full px-5 py-4 bg-nem-wine/5 border-0 rounded-2xl focus:bg-white focus:shadow-lg focus:ring-4 focus:ring-nem-wine/30 transition-all duration-200 font-medium disabled:bg-nem-gray/30 disabled:cursor-not-allowed appearance-none pr-10">
               <option value="" disabled>Seleccionar contenido...</option>
-              {availableContenidos.map(contenido => (
+              {availableContenidos.map((contenido: Contenido) => (
                 <option key={contenido.id} value={contenido.id}>{contenido.titulo}</option>
               ))}
             </select>
@@ -164,8 +164,8 @@ const QuickFilter: React.FC<QuickFilterProps> = ({
         <div className="mt-12">
           <h4 className="text-xl font-bold text-nem-wine mb-6">Resultados</h4>
           <div className="space-y-4">
-            {localPdas.map(pda => (
-              <PdaCard key={pda.id} pda={pda} />
+            {localPdas.map((pda: Pda) => (
+              <PdaCard key={pda.id} pda={pda} data={data} />
             ))}
           </div>
         </div>

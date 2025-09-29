@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import type { Data, Pda } from '../App';
+import type { Data, Pda, Grado, Contenido, CampoFormativo } from '../types';
 
 interface PdaCardProps {
   pda: Pda;
@@ -19,9 +19,9 @@ const PdaCard: React.FC<PdaCardProps> = ({ pda, data }) => {
   const { grado, campoFormativo } = useMemo(() => {
     if (!data) return { grado: null, campoFormativo: null };
 
-    const grado = data.grados.find(g => g.id === pda.grado_id);
-    const contenido = data.contenidos.find(c => c.id === pda.contenido_id);
-    const campoFormativo = contenido ? data.campos_formativos.find(cf => cf.id === contenido.campo_formativo_id) : null;
+    const grado = data.grados.find((g: Grado) => g.id === pda.grado_id);
+    const contenido = data.contenidos.find((c: Contenido) => c.id === pda.contenido_id);
+    const campoFormativo = contenido ? data.campos_formativos.find((cf: CampoFormativo) => cf.id === contenido.campo_formativo_id) : null;
 
     return { grado, campoFormativo };
   }, [pda, data]);
