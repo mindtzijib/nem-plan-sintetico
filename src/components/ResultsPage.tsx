@@ -1,43 +1,49 @@
 import React from 'react';
-import type { Data, Pda, View } from '../types';
+import type { Data, Contenido, Pda } from '../types';
 import PdaCard from './PdaCard';
 
 interface ResultsPageProps {
-  pdas: Pda[];
-  data: Data | null;
-  setView: (view: View) => void;
+  data: Data;
+  searchQuery: string;
 }
 
-const ResultsPage: React.FC<ResultsPageProps> = ({ pdas, data, setView }) => {
+const ResultsPage: React.FC<ResultsPageProps> = ({ data, searchQuery }) => {
+  const lowerCaseQuery = searchQuery.toLowerCase();
+
+  const filteredContenidos = data.contenidos.filter(contenido =>
+    contenido.titulo.toLowerCase().includes(lowerCaseQuery)
+  );
+
+  const filteredPdas = data.pdas.filter(pda =>
+    pda.descripcion.toLowerCase().includes(lowerCaseQuery)
+  );
+
+  const pdaContenidoIds = new Set(filteredPdas.map(pda => pda.contenido_id));
+  const contenidosFromPdas = data.contenidos.filter(contenido =>
+    pdaContenidoIds.has(contenido.id)
+  );
+
+  const allContenidos = [...new Set([...filteredContenidos, ...contenidosFromPdas])];
+
   return (
     <div>
-      {/* Back Button */}
-      <div className="mb-8">
-        <button 
-          onClick={() => setView('home')}
-          className="flex items-center space-x-3 px-6 py-3 bg-gradient-to-r from-nem-wine to-nem-berry text-white rounded-2xl font-bold hover:from-nem-wine/90 hover:to-nem-berry/90 transition-all duration-200 shadow-lg">
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" />
-          </svg>
-          <span>Volver al Inicio</span>
-        </button>
-      </div>
-
-      <h2 className="text-3xl font-bold bg-gradient-to-r from-nem-wine to-nem-berry bg-clip-text text-transparent mb-8 text-center">Resultados de PDAs</h2>
-
-      {/* Results List */}
-      <div className="space-y-6">
-        {pdas.length > 0 ? (
-          pdas.map(pda => (
-            <PdaCard key={pda.id} pda={pda} data={data} />
-          ))
-        ) : (
-          <div className="text-center bg-white/80 backdrop-blur-sm rounded-3xl border border-nem-gray/30 p-8 shadow-xl">
-            <h3 className="text-2xl font-bold text-nem-black">No se encontraron resultados</h3>
-            <p className="text-nem-gray mt-2">Intenta con otros filtros o explora desde la página de inicio.</p>
+      <h2 className="text-3xl font-bold text-nem-wine mb-8">Resultados de la Búsqueda para "{searchQuery}"</h2>
+      
+      {allContenidos.length > 0 ? (
+        allContenidos.map(contenido => (
+          <div key={contenido.id} className="mb-8">
+            <h3 className="text-2xl font-bold text-nem-berry mb-4">{contenido.titulo}</h3>
+            {data.pdas
+              .filter(pda => pda.contenido_id === contenido.id)
+              .filter(pda => filteredPdas.includes(pda) || filteredContenidos.some(c => c.id === pda.contenido_id))
+              .map(pda => (
+                <PdaCard key={pda.id} pda={pda} data={data} />
+              ))}
           </div>
-        )}
-      </div>
+        ))
+      ) : (
+        <p className="text-lg text-nem-gray">No se encontraron resultados.</p>
+      )}
     </div>
   );
 };

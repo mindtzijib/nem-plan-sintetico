@@ -1,7 +1,7 @@
 import React from 'react';
-import type { Data, Fase, Grado, CampoFormativo } from '../types';
+import type { Data, Fase, Grado } from '../types';
 import QuickFilter from './QuickFilter';
-import CampoCard from './CampoCard';
+
 
 interface HomePageProps {
   data: Data | null;
@@ -45,15 +45,7 @@ const HomePage: React.FC<HomePageProps> = ({
         setSelectedGrado={setSelectedGrado}
       />
 
-      {/* Exploration Grid */}
-      <div className="mb-8">
-        <h3 className="text-2xl font-bold text-nem-wine mb-8 text-center">Explorar por Campo Formativo</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {data.campos_formativos.map((campo: CampoFormativo) => (
-            <CampoCard key={campo.id} campo={campo} onExplore={() => {}} />
-          ))}
-        </div>
-      </div>
+
     </div>
   );
 };
