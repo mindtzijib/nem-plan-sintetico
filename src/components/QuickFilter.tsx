@@ -146,6 +146,37 @@ const QuickFilter: React.FC<QuickFilterProps> = ({
           </div>
         </div>
       </div>
+      {(selectedFase || selectedGrado || selectedCampoId || selectedContenidoId) && (
+        <div className="mb-8 p-6 bg-nem-wine/5 rounded-2xl">
+          <h4 className="text-lg font-semibold text-nem-wine mb-4">Tu Selección</h4>
+          <div className="flex flex-wrap items-center gap-4">
+            {selectedFase && (
+              <div className="flex items-center gap-2">
+                <span className="font-semibold">Fase:</span>
+                <span className="px-3 py-1 bg-nem-wine text-white rounded-full text-sm">{selectedFase.nombre}</span>
+              </div>
+            )}
+            {selectedGrado && (
+              <div className="flex items-center gap-2">
+                <span className="font-semibold">Grado:</span>
+                <span className="px-3 py-1 bg-nem-berry text-white rounded-full text-sm">{selectedGrado.nombre}</span>
+              </div>
+            )}
+            {selectedCampoId && (
+              <div className="flex items-center gap-2">
+                <span className="font-semibold">Campo:</span>
+                <span className="px-3 py-1 bg-nem-gold text-nem-black rounded-full text-sm">{data.campos_formativos.find(c => c.id === selectedCampoId)?.nombre}</span>
+              </div>
+            )}
+            {selectedContenidoId && (
+              <div className="flex items-center gap-2">
+                <span className="font-semibold">Contenido:</span>
+                <span className="text-sm">{data.contenidos.find(c => c.id === selectedContenidoId)?.titulo}</span>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
       <div className="flex flex-col sm:flex-row gap-4 justify-center">
         <button 
           onClick={handleShowPdas}
