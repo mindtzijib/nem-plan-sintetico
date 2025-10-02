@@ -6,37 +6,28 @@ export default defineConfig({
   plugins: [react()],
   base: process.env.NODE_ENV === 'production' ? '/nem-plan-sintetico/' : '/',
   build: {
-    // Optimizaciones de build
+    // Optimizaciones básicas de build
     rollupOptions: {
       output: {
         manualChunks: {
-          // Separar vendor libraries en chunks separados
-          vendor: ['react', 'react-dom'],
-          // Separar datos en su propio chunk
-          data: ['./src/data.ts']
+          vendor: ['react', 'react-dom']
         }
       }
     },
-    // Comprimir assets
-    minify: 'terser',
-    terserOptions: {
-      compress: {
-        drop_console: true, // Remover console.logs en producción
-        drop_debugger: true
-      }
-    },
+    // Minificación estándar
+    minify: true,
     // Optimizar CSS
     cssMinify: true,
-    // Generar source maps para debugging
-    sourcemap: false
+    // No generar source maps en producción
+    sourcemap: false,
+    // Configurar límite de advertencia de chunk
+    chunkSizeWarningLimit: 1000
   },
   // Optimizaciones de desarrollo
   server: {
-    hmr: {
-      overlay: false
-    }
+    hmr: true
   },
-  // Preload de módulos críticos
+  // Optimizar dependencias
   optimizeDeps: {
     include: ['react', 'react-dom']
   }
