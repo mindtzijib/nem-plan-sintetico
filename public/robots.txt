@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://mindtzijib.github.io/nem-plan-sintetico/sitemap.xml

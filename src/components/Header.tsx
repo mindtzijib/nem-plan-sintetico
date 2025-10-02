@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FaBook, FaSearch, FaTimes } from 'react-icons/fa';
+import { useDebounce } from '../hooks/useDebounce';
 
 interface HeaderProps {
   onSearch: (query: string) => void;
@@ -9,12 +10,28 @@ interface HeaderProps {
 const Header: React.FC<HeaderProps> = ({ onSearch, onGoHome }) => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  
+  // Debounce search query para optimizar performance
+  const debouncedSearchQuery = useDebounce(searchQuery, 300);
+
+  // Ejecutar búsqueda automática cuando el debounced query cambie
+  useEffect(() => {
+    if (debouncedSearchQuery.trim().length >= 2) {
+      onSearch(debouncedSearchQuery);
+    }
+  }, [debouncedSearchQuery, onSearch]);
 
   const handleSearch = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       onSearch(searchQuery);
       setIsSearchOpen(false);
     }
+  };
+
+  const handleClearSearch = () => {
+    setSearchQuery('');
+    onGoHome();
+    setIsSearchOpen(false);
   };
 
   return (
@@ -60,7 +77,7 @@ const Header: React.FC<HeaderProps> = ({ onSearch, onGoHome }) => {
                 onKeyDown={handleSearch}
               />
               <FaSearch className="absolute left-4 top-3.5 w-5 h-5 text-slate-400" />
-              <button onClick={() => setIsSearchOpen(false)} className="absolute right-4 top-3.5 w-5 h-5 text-slate-400">
+              <button onClick={handleClearSearch} className="absolute right-4 top-3.5 w-5 h-5 text-slate-400 hover:text-nem-wine transition-colors">
                 <FaTimes />
               </button>
             </div>

@@ -1,5 +1,5 @@
 import React from 'react';
-import type { Data} from '../types';
+import type { Data } from '../types';
 import PdaCard from './PdaCard';
 
 interface ResultsPageProps {
@@ -28,7 +28,7 @@ const ResultsPage: React.FC<ResultsPageProps> = ({ data, searchQuery }) => {
   return (
     <div>
       <h2 className="text-3xl font-bold text-nem-wine mb-8">Resultados de la Búsqueda para "{searchQuery}"</h2>
-      
+
       {allContenidos.length > 0 ? (
         allContenidos.map(contenido => (
           <div key={contenido.id} className="mb-8">
